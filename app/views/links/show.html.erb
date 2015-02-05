@@ -10,5 +10,9 @@
   <%= @link.url %>
 </p>
 
-<%= link_to 'Edit', edit_link_path(@link) %> |
-<%= link_to 'Back', links_path %>
+<% if @link.user == current_user %>
+
+           <td><%= link_to 'Edit', edit_link_path(@link) %></td>
+           <td><%= link_to 'Back', links_path %></td>
+           <td><%= link_to 'Destroy', @link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<% end %> |

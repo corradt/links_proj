@@ -1,5 +1,6 @@
 class LinksController < ApplicationController
   before_action :set_link, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:index, :show]
 
   respond_to :html
 
@@ -13,7 +14,7 @@ class LinksController < ApplicationController
   end
 
   def new
-    @link = Link.new
+    @link = current_user.links.build
     respond_with(@link)
   end
 
@@ -21,7 +22,7 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = Link.new(link_params)
+    @link = current_user.links.build(link_params)
     @link.save
     respond_with(@link)
   end
@@ -43,5 +44,9 @@ class LinksController < ApplicationController
 
     def link_params
       params.require(:link).permit(:title, :url)
+    end
+    def authorized_user
+       @link = current_user.links.find_by(id: params[:id])
+       redirect_to links_path, notice: "Not authorized to edit this link" if @link.nil?
     end
 end

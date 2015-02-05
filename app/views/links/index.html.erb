@@ -10,18 +10,68 @@
   </thead>
 
   <tbody>
+
+  
+
+
+<% comment do %>
+   se si vuole che ogni utente visualizzi solo i suoi relativi contenuti, in questo modo
+    non potra visualizzare i contenuti degli altri 
+    procedere come segue
+<% comment end %>
+
+
     <% @links.each do |link| %>
-      <tr>
+      
+       
+        <% if link.user == current_user %>
+        <tr>
         <td><%= link.title %></td>
         <td><%= link.url %></td>
         <td><%= link_to 'Show', link %></td>
-        <td><%= link_to 'Edit', edit_link_path(link) %></td>
-        <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+
+
+
+           <td><%= link_to 'Edit', edit_link_path(link) %></td>
+           <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+
+
+
       </tr>
     <% end %>
+
+
+
+
+ <% comment do %>
+    
+    se si vuole che un utente può vedere tutti i contenuti anche quelli degli altri utenti ma puo' modificare solo i contenuti propri 
+    procedere come segue
+
+    <% @links.each do |link| %>
+              
+        <tr>
+        <td><%= link.title %></td>
+        <td><%= link.url %></td>
+        <td><%= link_to 'Show', link %></td>
+        
+        <% if link.user == current_user %>
+
+           <td><%= link_to 'Edit', edit_link_path(link) %></td>
+           <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+
+      </tr>
+    <% end %>
+
+
+<% comment end %>
+
+
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Link', new_link_path %>
